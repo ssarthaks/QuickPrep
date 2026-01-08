@@ -39,4 +39,4 @@ It provides interactive MCQ quizzes, instant results, and downloadable PDF resou
 - **Styling:** Tailwind CSS  
 - **Build Tool:** Vite  
 - **PDF Generation:** Client-side PDF utilities  
-- **Deployment:** Vercel 
+- **Deployment:** Vercel
