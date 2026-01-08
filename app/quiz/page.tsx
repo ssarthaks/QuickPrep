@@ -1,4 +1,29 @@
-"use client";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "MCQ Quiz Practice",
+  description:
+    "Practice technical interview questions with interactive MCQ quizzes. Cover React, JavaScript, TypeScript, Node.js, Next.js, Python, SQL, MongoDB, DevOps, AI/ML and more. Get instant feedback and explanations for each question.",
+  keywords: [
+    "MCQ quiz",
+    "technical interview questions",
+    "coding quiz",
+    "programming practice",
+    "React quiz",
+    "JavaScript quiz",
+    "Node.js questions",
+    "interview preparation",
+    "developer assessment",
+  ],
+  openGraph: {
+    title: "MCQ Quiz Practice | Quickie",
+    description:
+      "Interactive MCQ quizzes for technical interview preparation. Test your knowledge across 25+ technologies.",
+    type: "website",
+  },
+};
+
+("use client");
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -462,9 +487,7 @@ const Quiz = () => {
   return (
     <div className="min-h-screen py-4 sm:py-8 lg:py-12">
       <div className="section-container max-w-xl px-4">
-        <motion.div
-          className="text-center mb-6 sm:mb-8"
-        >
+        <motion.div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
             MCQ Quiz
           </h1>
