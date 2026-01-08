@@ -14,13 +14,13 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Exam Prep – Last Minute Interview Preparation",
-    template: "%s | Exam Prep",
+    default: "Quickie – Last Minute Tech Interview Preparation & Practice",
+    template: "%s | Quickie",
   },
   description:
-    "Exam Prep helps you prepare for tech interviews at the last minute with MCQ quizzes, instant results, and downloadable PDF revision notes for IT roles.",
+    "Quickie is your ultimate last-minute tech interview preparation platform. Practice 500+ MCQ questions, download instant PDF revision notes, and access expert guidelines for React, JavaScript, Node.js, Python, SQL, MongoDB, DevOps, AI/ML, and 25+ technologies. Get instant feedback and ace your IT job interview.",
   keywords: [
-    "exam prep",
+    "Quickie",
     "interview preparation",
     "tech interview",
     "MCQ practice",
@@ -28,34 +28,67 @@ export const metadata: Metadata = {
     "last minute revision",
     "programming interview",
     "developer interview prep",
+    "coding interview practice",
+    "React interview questions",
+    "JavaScript interview",
+    "Node.js interview",
+    "TypeScript interview",
+    "SQL interview questions",
+    "MongoDB interview",
+    "Python interview prep",
+    "Next.js interview",
+    "DevOps interview",
+    "AI ML interview",
+    "technical assessment",
+    "software engineer interview",
+    "full stack interview",
+    "backend interview",
+    "frontend interview",
+    "interview notes PDF",
   ],
-  authors: [{ name: "Exam Prep Team" }],
-  creator: "Exam Prep",
-  publisher: "Exam Prep",
+  authors: [{ name: "Quickie Team" }],
+  creator: "Quickie",
+  publisher: "Quickie",
 
   openGraph: {
-    title: "Exam Prep – Last Minute Interview Preparation",
+    title: "Quickie – Last Minute Tech Interview Preparation & Practice",
     description:
-      "Practice MCQs, view instant results, and download PDFs for quick IT interview revision.",
+      "Practice 500+ MCQ questions, download instant PDF notes, and access expert guidelines for technical interviews. Covering React, Node.js, Python, SQL, MongoDB, DevOps, AI/ML and 25+ technologies.",
     type: "website",
     locale: "en_US",
-    siteName: "Exam Prep",
+    siteName: "Quickie",
     images: [
       {
         url: "/ogImage.jpg",
         width: 1200,
         height: 630,
-        alt: "Exam Prep – Tech Interview Preparation",
+        alt: "Quickie – Tech Interview Preparation Platform with MCQ Quizzes and PDF Notes",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Exam Prep – Last Minute Interview Preparation",
+    title: "Quickie – Last Minute Tech Interview Preparation",
     description:
-      "Last-minute tech interview prep with MCQs, results, and downloadable PDFs.",
+      "Practice 500+ MCQ questions and download instant PDF revision notes for technical interviews. Expert guidelines for React, Node.js, Python, SQL, and more.",
     images: ["/ogImage.jpg"],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
+  verification: {
+    google: "-yDhPN8qjvRxGcET3ltNDvktjZ6Q0mUdR821NWIVZes",
   },
 
   metadataBase: new URL("https://quickieee.vercel.app"),
