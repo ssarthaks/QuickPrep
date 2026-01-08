@@ -167,7 +167,6 @@
   .card-elevated {
     @apply bg-card rounded-xl;
     box-shadow: var(--shadow-card);
-    box-shadow: var(--shadow-card-hover);
   }
 
   .card-elevated-hover {
@@ -224,6 +223,16 @@
   .glass-effect {
     @apply backdrop-blur-md bg-background/80;
   }
+
+  .bg-grid-pattern {
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
 }
 
 /* Custom scrollbar */
@@ -242,4 +251,11 @@
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-muted-foreground/50;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
