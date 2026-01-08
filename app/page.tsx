@@ -43,10 +43,10 @@ const features = [
 ];
 
 const stats = [
-  { value: "10K+", label: "Practice Questions", icon: BookOpen },
-  { value: "95%", label: "Success Rate", icon: TrendingUp },
-  { value: "50+", label: "Technologies", icon: Zap },
-  { value: "5K+", label: "Happy Users", icon: Users },
+  { value: "500+", label: "Practice Questions", icon: BookOpen },
+  { value: "85%", label: "Success Rate", icon: TrendingUp },
+  { value: "25+", label: "Technologies", icon: Zap },
+  { value: "100+", label: "Early Users", icon: Users },
 ];
 
 const benefits = [
@@ -67,7 +67,7 @@ export default function Home() {
         <div className="absolute top-20 right-10 w-72 h-72 bg-blue-200 rounded-full blur-3xl opacity-40" />
         <div className="absolute bottom-20 left-10 w-96 h-96 bg-cyan-200 rounded-full blur-3xl opacity-40" />
 
-        <div className="section-container relative py-20 lg:py-32">
+        <div className="section-container relative py-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold mb-8 shadow-lg"
             >
               <Award className="h-4 w-4" />
-              Trusted by 5,000+ Tech Professionals
+              Learn, Practice, and Revise: Notes, MCQs & PDF Guides
             </motion.div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-slate-900">
@@ -120,7 +120,7 @@ export default function Home() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-2 border-slate-300 hover:bg-slate-100 bg-white w-full sm:w-auto gap-2 px-8 py-6 text-lg text-slate-900"
+                    className="border-2 border-slate-300 hover:bg-slate-100 bg-white w-full sm:w-auto gap-2 px-8 py-6 text-lg text-slate-900 hover:text-blue-700"
                   >
                     <FileText className="h-5 w-5" />
                     Download PDF
@@ -244,16 +244,16 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-white">
-        <div className="section-container">
+      <section className=" bg-white">
+        <div className="section">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center relative overflow-hidden rounded-3xl bg-blue-600 shadow-2xl"
+            className="w-full mx-auto text-center py-24 relative overflow-hidden bg-blue-600"
           >
             <div className="relative p-12 md:p-16">
-              <Award className="h-16 w-16 mx-auto mb-6 text-white" />
+              {/* <Award className="h-16 w-16 mx-auto mb-6 text-white" /> */}
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
                 Ready to Ace Your Interview?
               </h2>

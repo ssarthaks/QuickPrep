@@ -40,6 +40,11 @@ export const pdfContent: PDFContentData = {
       "Effect Life-cycle: Mounting, updating, and the crucial cleanup phase.",
       "Profiling: Using the React DevTools Profiler to identify commit-phase bottlenecks.",
       "HOCs vs Render Props: Historical patterns for code reuse before Hooks.",
+      "React Query / TanStack Query: Server state management with caching and synchronization.",
+      "React Router: Client-side routing with lazy loading and code splitting.",
+      "State Management: Redux, Zustand, Jotai, and when to use each.",
+      "Virtual DOM vs Real DOM: Why React doesn't manipulate the DOM directly.",
+      "Performance Optimization: Code splitting, lazy loading, and bundle analysis.",
     ],
     questions: [
       {
@@ -128,6 +133,11 @@ export const pdfContent: PDFContentData = {
       'Lazy load components that are not needed for the initial "Above the Fold" view.',
       "Use fragments `<></>` to avoid adding unnecessary DOM nodes.",
       "Prefer functional components over class components for better minification and future-proofing.",
+      "Don't optimize prematurely - measure first with React DevTools Profiler.",
+      "Keep components small and focused on a single responsibility.",
+      "Use TypeScript for better developer experience and catching bugs early.",
+      "Implement error boundaries to gracefully handle runtime errors.",
+      "Always provide keys when rendering lists to help React identify which items have changed.",
     ],
   },
   javascript: {
@@ -153,6 +163,12 @@ export const pdfContent: PDFContentData = {
       "Temporal Dead Zone: Why you cannot access let/const before declaration.",
       "Event Bubbling & Capture: How events propagate through the DOM tree.",
       "Web Workers: Offloading heavy computations to background threads.",
+      "Optional Chaining & Nullish Coalescing: Modern operators for safe property access.",
+      "Modules: Import/export syntax and dynamic imports for code splitting.",
+      "Array Methods: map, filter, reduce, flatMap, and their performance implications.",
+      "Object Methods: Object.keys, Object.values, Object.entries, Object.assign.",
+      "Set and Map Data Structures: When to use them over objects and arrays.",
+      "Performance API: Measuring and optimizing JavaScript performance.",
     ],
     questions: [
       {
@@ -248,6 +264,11 @@ const throttle = (fn, limit) => {
       "Be careful with floating-point math: `0.1 + 0.2 !== 0.3`. Use integers or libraries like Big.js.",
       "Always use strict equality `===` to avoid hidden type coercion bugs.",
       "Use the `structuredClone()` global for deep copying if browser support allows.",
+      "Prefer optional chaining `?.` over multiple && checks for safer property access.",
+      "Use destructuring for cleaner code when working with objects and arrays.",
+      "Understand the difference between undefined and null - use undefined for uninitialized values.",
+      "Use Array.prototype methods instead of loops for better readability and less bugs.",
+      "Be aware of JavaScript's automatic semicolon insertion (ASI) quirks.",
     ],
   },
   typescript: {
@@ -273,6 +294,11 @@ const throttle = (fn, limit) => {
       'Type Assertions (as): Telling the compiler "trust me, I know better".',
       "Const Assertions: Making an object completely read-only and literal.",
       "Module Resolution: How TS finds files based on tsconfig paths.",
+      "Type Predicates: Custom type guards that help narrow types in conditionals.",
+      "Enum vs Union of Strings: Trade-offs between enums and string literal unions.",
+      "Abstract Classes: Defining common behavior while forcing subclass implementation.",
+      "Function Overloading: Multiple function signatures for different argument types.",
+      "ReturnType & Parameters: Extracting types from function signatures.",
     ],
     questions: [
       {
@@ -298,6 +324,18 @@ const throttle = (fn, limit) => {
       {
         q: "How do you make all properties of a type optional?",
         a: "Using the `Partial<T>` utility type.",
+      },
+      {
+        q: "What is the difference between unknown and any?",
+        a: "unknown is type-safe - you must narrow it before use. any bypasses type checking entirely and should be avoided.",
+      },
+      {
+        q: "How do you create a readonly array type?",
+        a: "Using ReadonlyArray<T> or readonly T[] syntax. This prevents mutations like push, pop, etc.",
+      },
+      {
+        q: "What are Index Signatures?",
+        a: "They allow you to define types for objects with dynamic keys: { [key: string]: number }",
       },
       {
         q: 'What is "Abstract Class" in TS?',
@@ -688,6 +726,10 @@ asyncio.run(main())`,
       "Leverage `f-strings` for readable string formatting (Python 3.6+).",
       "Avoid using mutable default arguments like `def append_to(element, to=[])`.",
       "Use `enumerate()` instead of `range(len(list))` for cleaner loops.",
+      "Use list comprehensions for simple transformations, but don't over-complicate them.",
+      "Always close resources with context managers (`with` statement).",
+      "Use virtual environments to isolate project dependencies.",
+      "Type hints improve code readability and catch bugs early with mypy.",
     ],
   },
   system_design: {
@@ -974,41 +1016,115 @@ function process((Editable&Loggable)|null $item) {
   security: {
     title: "Web Security & OWASP Top 10",
     concepts: [
-      "XSS (Cross-Site Scripting): Injecting malicious scripts into trusted websites.",
-      "CSRF (Cross-Site Request Forgery): Tricking a user into performing unwanted actions.",
-      "SQL Injection: Manipulating database queries via unsanitized input.",
+      "XSS (Cross-Site Scripting): Injecting malicious scripts - Reflected, Stored, DOM-based variants.",
+      "CSRF (Cross-Site Request Forgery): Tricking users into performing unwanted actions via forged requests.",
+      "SQL Injection: Manipulating database queries via unsanitized input to access/modify data.",
       "CORS (Cross-Origin Resource Sharing): Browser mechanism for restricting cross-origin requests.",
-      "Content Security Policy (CSP): Whitelisting trusted sources of content to prevent XSS.",
-      "JWT (JSON Web Tokens): Stateless authentication, claims, and signing (HS256 vs RS256).",
-      "OAuth2 & OpenID Connect: Delegation protocols for authorization and identity.",
-      "Rate Limiting: Preventing Brute Force and DoS attacks.",
-      "HSTS (HTTP Strict Transport Security): Forcing browsers to use HTTPS only.",
-      "Secure Cookies: HttpOnly, Secure, and SameSite flags.",
+      "Content Security Policy (CSP): Whitelisting trusted sources to prevent XSS attacks.",
+      "JWT (JSON Web Tokens): Stateless authentication with claims, signing (HS256 vs RS256), and validation.",
+      "OAuth2 & OpenID Connect: Delegation protocols for authorization and identity with scopes and refresh tokens.",
+      "Rate Limiting: Preventing Brute Force and DoS attacks using token bucket or sliding window algorithms.",
+      "HSTS (HTTP Strict Transport Security): Forcing browsers to use HTTPS with max-age and includeSubDomains.",
+      "Secure Cookies: HttpOnly (prevents JS access), Secure (HTTPS only), SameSite (CSRF protection) flags.",
+      "Input Validation: Whitelist vs blacklist, parameterized queries, and sanitization strategies.",
+      "XXE (XML External Entity): Exploiting XML parsers to access files or internal networks.",
+      "SSRF (Server-Side Request Forgery): Making the server perform unintended requests.",
+      "Clickjacking: Using iframes to trick users into clicking hidden elements.",
+      "Security Headers: X-Content-Type-Options, X-Frame-Options, Referrer-Policy for defense in depth.",
+      "Secrets Management: Environment variables, vaults (HashiCorp Vault, AWS Secrets Manager).",
+      "API Security: API keys, rate limiting, request signing, API gateways for throttling.",
+      "Session Management: Secure session IDs, timeout policies, session fixation prevention.",
+      "Encryption: Symmetric (AES) vs Asymmetric (RSA), TLS/SSL for transport security.",
     ],
     questions: [
       {
-        q: "How do you prevent XSS?",
-        a: "Sanitize input, escape output for the specific context (HTML, JS, CSS), and implement a strong Content Security Policy (CSP).",
+        q: "How do you prevent XSS attacks?",
+        a: "Sanitize input, escape output for context (HTML, JS, CSS), implement CSP, use HTTPOnly cookies, validate/encode data on both client and server.",
       },
       {
         q: "What is the difference between Authentication and Authorization?",
-        a: "Authentication is verifying WHO you are. Authorization is verifying WHAT you are allowed to do.",
+        a: "Authentication verifies WHO you are (login credentials). Authorization verifies WHAT you are allowed to do (permissions/roles).",
       },
       {
-        q: 'Explain "Salting" a password.',
-        a: "Adding a unique, random string to a password before hashing it to prevent Rainbow Table attacks.",
+        q: 'Explain "Salting" a password and why it matters.',
+        a: "Adding a unique, random string to each password before hashing prevents rainbow table attacks. Even identical passwords produce different hashes.",
+      },
+      {
+        q: "How does CSRF protection work?",
+        a: "Using anti-CSRF tokens validated on server, SameSite cookies, and verifying Origin/Referer headers to ensure requests originate from your site.",
+      },
+      {
+        q: "What is the difference between encoding, encryption, and hashing?",
+        a: "Encoding transforms data format (reversible, no key). Encryption secures data (reversible with key). Hashing is one-way transformation (irreversible).",
+      },
+      {
+        q: "Explain JWT vulnerabilities and prevention.",
+        a: "None algorithm attack (validate alg), weak secrets (use strong random keys), no expiration (always set exp claim), algorithm confusion (verify alg), sensitive data in payload.",
       },
     ],
     codeSnippets: [
       {
-        title: "Secure CSP Header",
-        code: `Content-Security-Policy: default-src 'self'; script-src 'self' https://trusted.cdn.com; object-src 'none';`,
+        title: "Comprehensive Security Headers",
+        code: `// Express.js security headers
+const helmet = require('helmet');
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "trusted-cdn.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  },
+}));`,
+      },
+      {
+        title: "Secure Password Hashing",
+        code: `const bcrypt = require('bcrypt');
+
+// Hash password
+async function registerUser(password) {
+  const saltRounds = 12;
+  const hash = await bcrypt.hash(password, saltRounds);
+  return hash;
+}
+
+// Verify password
+async function loginUser(password, hash) {
+  return await bcrypt.compare(password, hash);
+}`,
+      },
+      {
+        title: "CSRF Protection",
+        code: `const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
+
+app.get('/form', csrfProtection, (req, res) => {
+  res.render('form', { csrfToken: req.csrfToken() });
+});
+
+app.post('/submit', csrfProtection, (req, res) => {
+  // Token automatically validated
+});`,
       },
     ],
     tips: [
-      "Never store passwords in plain text; use Argon2 or BCrypt.",
-      'Use "Least Privilege" principle for database users.',
-      "Always keep your dependencies updated to patch known vulnerabilities.",
+      "Never store passwords in plain text; use Argon2, BCrypt, or PBKDF2.",
+      'Always use "Least Privilege" principle - grant minimum necessary permissions.',
+      "Keep all dependencies updated to patch known vulnerabilities (npm audit, Snyk).",
+      "Implement defense in depth - multiple layers of security controls.",
+      "Never trust client-side validation - always validate on the server.",
+      "Use HTTPS everywhere, especially for authentication endpoints.",
+      "Implement proper logging and monitoring for security events.",
+      "Sanitize and validate all user inputs - never trust external data.",
     ],
   },
   testing: {
@@ -1022,6 +1138,11 @@ function process((Editable&Loggable)|null $item) {
       "Code Coverage: Measuring how much of the codebase is executed during tests.",
       "Regression Testing: Ensuring new changes don’t break existing functionality.",
       "Snapshot Testing: Comparing UI components against a reference image/markup.",
+      "Property-Based Testing: Testing with randomly generated inputs to find edge cases.",
+      "Contract Testing: Ensuring API consumers and providers stay in sync (Pact).",
+      "Performance Testing: Load, stress, and spike testing for system limits.",
+      "Test Isolation: Each test independent, not affecting others.",
+      "AAA Pattern: Arrange (setup), Act (execute), Assert (verify).",
     ],
     questions: [
       {
@@ -1031,6 +1152,18 @@ function process((Editable&Loggable)|null $item) {
       {
         q: 'What is "Mocking"?',
         a: "Replacing a real dependency (like an API or Database) with a fake version to control its behavior during a test.",
+      },
+      {
+        q: "Difference between Mocks, Stubs, and Spies?",
+        a: "Stubs provide canned responses. Mocks verify interactions. Spies wrap real objects to track calls.",
+      },
+      {
+        q: "What is Test-Driven Development (TDD)?",
+        a: "Write failing test first (Red), write minimal code to pass (Green), refactor (Refactor). Ensures testable code.",
+      },
+      {
+        q: "How do you handle flaky tests?",
+        a: "Identify root cause (timing, race conditions), add proper waits, mock external services, ensure test isolation.",
       },
     ],
     codeSnippets: [
@@ -1084,6 +1217,611 @@ git config --global alias.cm commit`,
       "Commit early and often with meaningful messages.",
       "Never force push to a shared main branch.",
       "Use `.gitignore` to keep secrets and build artifacts out of your repo.",
+      "Write descriptive commit messages explaining what changed and why.",
+      "Use branches for features and experiments - keep main stable.",
+      "Review changes with `git diff` before committing to avoid mistakes.",
+    ],
+  },
+  mongodb: {
+    title: "MongoDB & NoSQL Database Design",
+    concepts: [
+      "Document Model: JSON-like documents stored in BSON format with flexible schemas.",
+      "Collections & Documents: Similar to tables and rows but schema-less.",
+      "Indexing: Single field, compound, text, geospatial, and hashed indexes.",
+      "Aggregation Pipeline: $match, $group, $project, $lookup for complex queries.",
+      "Replication: Replica sets for high availability with automatic failover.",
+      "Sharding: Horizontal scaling by distributing data across multiple servers.",
+      "Transactions: ACID transactions across multiple documents (MongoDB 4.0+).",
+      "Change Streams: Real-time data change notifications for reactive applications.",
+      "Schema Validation: Enforcing document structure with JSON Schema.",
+      "GridFS: Storing files larger than 16MB using chunking.",
+      "Embedded vs Referenced: Choosing between embedding documents or referencing IDs.",
+      "Capped Collections: Fixed-size collections with automatic oldest-document removal.",
+      "Atlas: Fully managed cloud database service with automated backups.",
+      "Performance: Explain plans, query profiling, and optimization techniques.",
+    ],
+    questions: [
+      {
+        q: "When should you embed vs reference documents?",
+        a: "Embed when data is frequently accessed together and has 1-to-few relationships. Reference when data is large, changes independently, or has many-to-many relationships.",
+      },
+      {
+        q: "What is the difference between find() and aggregate()?",
+        a: "find() retrieves documents with simple filtering. aggregate() processes documents through a pipeline of stages for complex transformations, joins, and analytics.",
+      },
+      {
+        q: "How do you ensure data consistency in MongoDB?",
+        a: "Use transactions for multi-document operations, schema validation, and write concerns. Design schemas carefully to minimize need for joins.",
+      },
+      {
+        q: "Explain MongoDB replica set architecture.",
+        a: "A group of MongoDB instances with one primary (accepts writes) and multiple secondaries (replicate data). Automatic failover promotes a secondary if primary fails.",
+      },
+      {
+        q: "What are the benefits of sharding?",
+        a: "Horizontal scaling, distributing read/write load, storing more data than single server can handle, and improved performance for large datasets.",
+      },
+    ],
+    codeSnippets: [
+      {
+        title: "Aggregation Pipeline with $lookup",
+        code: `db.orders.aggregate([
+  {
+    $match: { status: 'completed' }
+  },
+  {
+    $lookup: {
+      from: 'users',
+      localField: 'userId',
+      foreignField: '_id',
+      as: 'userDetails'
+    }
+  },
+  {
+    $unwind: '$userDetails'
+  },
+  {
+    $group: {
+      _id: '$userDetails.email',
+      totalSpent: { $sum: '$amount' }
+    }
+  },
+  {
+    $sort: { totalSpent: -1 }
+  }
+]);`,
+      },
+      {
+        title: "Create Index with Compound Fields",
+        code: `db.products.createIndex(
+  { category: 1, price: -1 },
+  { 
+    name: 'category_price_idx',
+    background: true 
+  }
+);`,
+      },
+      {
+        title: "Transaction Example",
+        code: `const session = client.startSession();
+session.startTransaction();
+
+try {
+  await accounts.updateOne(
+    { _id: fromAccount },
+    { $inc: { balance: -amount } },
+    { session }
+  );
+  
+  await accounts.updateOne(
+    { _id: toAccount },
+    { $inc: { balance: amount } },
+    { session }
+  );
+  
+  await session.commitTransaction();
+} catch (error) {
+  await session.abortTransaction();
+  throw error;
+} finally {
+  session.endSession();
+}`,
+      },
+    ],
+    tips: [
+      "Always create indexes on fields used frequently in queries and sorts.",
+      "Use projection to return only needed fields and reduce network bandwidth.",
+      "Monitor slow queries with the database profiler (db.setProfilingLevel()).",
+      "Denormalize data for read-heavy applications to avoid expensive joins.",
+      "Use connection pooling to efficiently manage database connections.",
+      "Set appropriate write concerns based on data criticality (w: 'majority').",
+      "Regular backups and test restore procedures in non-production environments.",
+    ],
+  },
+  postgresql: {
+    title: "PostgreSQL & Advanced SQL Techniques",
+    concepts: [
+      "ACID Properties: Atomicity, Consistency, Isolation, Durability for reliable transactions.",
+      "MVCC (Multi-Version Concurrency Control): How PostgreSQL handles concurrent transactions.",
+      "Indexes: B-tree, Hash, GiST, GIN, BRIN for different query patterns.",
+      "Query Planner & EXPLAIN: Understanding query execution plans and optimization.",
+      "Partitioning: Range, list, and hash partitioning for large tables.",
+      "Triggers: Automatic execution of functions in response to data changes.",
+      "Stored Procedures & Functions: Business logic execution within database.",
+      "Window Functions: RANK, ROW_NUMBER, LAG, LEAD for analytical queries.",
+      "CTEs (Common Table Expressions): Recursive and non-recursive queries.",
+      "JSON/JSONB Support: Storing and querying JSON documents efficiently.",
+      "Full-Text Search: Advanced text search with tsvector and tsquery.",
+      "Foreign Data Wrappers: Accessing external data sources as if local tables.",
+      "Replication: Streaming replication for high availability and read scaling.",
+      "Connection Pooling: PgBouncer for managing database connections efficiently.",
+    ],
+    questions: [
+      {
+        q: "What is the difference between JSONB and JSON in PostgreSQL?",
+        a: "JSONB stores data in binary format for faster processing and supports indexing, while JSON stores exact text. JSONB is preferred for most use cases.",
+      },
+      {
+        q: "Explain VACUUM and why it's important.",
+        a: "VACUUM reclaims storage from dead tuples created by MVCC. Without it, database bloat increases, causing performance degradation and disk space issues.",
+      },
+      {
+        q: "What are the different isolation levels?",
+        a: "Read Uncommitted, Read Committed (default), Repeatable Read, Serializable. Higher isolation prevents anomalies but may reduce concurrency.",
+      },
+      {
+        q: "How do you optimize a slow query?",
+        a: "Use EXPLAIN ANALYZE, add appropriate indexes, rewrite query logic, use LIMIT/pagination, update statistics, consider partitioning, and optimize joins.",
+      },
+      {
+        q: "What is a materialized view?",
+        a: "A cached result of a query stored as a table. Must be refreshed manually or scheduled. Useful for expensive aggregations accessed frequently.",
+      },
+    ],
+    codeSnippets: [
+      {
+        title: "Advanced Window Function",
+        code: `SELECT 
+  employee_id,
+  department,
+  salary,
+  AVG(salary) OVER (PARTITION BY department) as dept_avg,
+  RANK() OVER (PARTITION BY department ORDER BY salary DESC) as dept_rank,
+  LAG(salary) OVER (ORDER BY hire_date) as prev_employee_salary
+FROM employees;`,
+      },
+      {
+        title: "Recursive CTE for Hierarchies",
+        code: `WITH RECURSIVE employee_hierarchy AS (
+  -- Anchor: Top-level employees
+  SELECT id, name, manager_id, 1 as level
+  FROM employees
+  WHERE manager_id IS NULL
+  
+  UNION ALL
+  
+  -- Recursive: Employees under managers
+  SELECT e.id, e.name, e.manager_id, eh.level + 1
+  FROM employees e
+  INNER JOIN employee_hierarchy eh ON e.manager_id = eh.id
+)
+SELECT * FROM employee_hierarchy ORDER BY level, name;`,
+      },
+      {
+        title: "Partial Index for Performance",
+        code: `CREATE INDEX active_users_email_idx 
+ON users(email) 
+WHERE status = 'active' AND deleted_at IS NULL;`,
+      },
+    ],
+    tips: [
+      "Use prepared statements to prevent SQL injection and improve performance.",
+      "Regularly run ANALYZE to update table statistics for query planner.",
+      "Monitor pg_stat_statements to identify slow and frequently run queries.",
+      "Use connection pooling (PgBouncer) for web applications with many clients.",
+      "Set appropriate indexes but avoid over-indexing (slows down writes).",
+      "Use transactions for data integrity in multi-step operations.",
+      "Enable query logging temporarily for debugging, but disable in production.",
+    ],
+  },
+  redis: {
+    title: "Redis & In-Memory Data Structures",
+    concepts: [
+      "Key-Value Store: Fast in-memory data structure server supporting various data types.",
+      "Data Types: Strings, Lists, Sets, Sorted Sets, Hashes, Bitmaps, HyperLogLogs, Streams.",
+      "Persistence: RDB snapshots and AOF (Append-Only File) for durability.",
+      "Replication: Master-slave architecture for high availability.",
+      "Pub/Sub: Message broadcasting for real-time applications.",
+      "Transactions: MULTI/EXEC for atomic operations.",
+      "Lua Scripting: Server-side scripting for complex atomic operations.",
+      "Pipelining: Sending multiple commands without waiting for replies.",
+      "Expiration: Automatic key deletion with TTL (Time To Live).",
+      "Redis Cluster: Horizontal scaling with automatic sharding.",
+      "Caching Strategies: Cache-aside, write-through, write-behind patterns.",
+      "Sorted Sets: Leaderboards, time-series, and priority queues.",
+      "Streams: Log data structure for event sourcing and messaging.",
+    ],
+    questions: [
+      {
+        q: "When should you use Redis vs a traditional database?",
+        a: "Use Redis for caching, session storage, real-time analytics, leaderboards, pub/sub, and rate limiting. Use traditional DB for persistent, complex relational data.",
+      },
+      {
+        q: "What is the difference between RDB and AOF persistence?",
+        a: "RDB creates point-in-time snapshots (faster, smaller files). AOF logs every write operation (more durable, larger files). Can use both for best durability.",
+      },
+      {
+        q: "How do you implement a distributed lock with Redis?",
+        a: "Use SETNX with expiration or Redlock algorithm. Key must have unique value and expiration to prevent deadlocks if client crashes.",
+      },
+      {
+        q: "Explain cache eviction policies.",
+        a: "LRU (Least Recently Used), LFU (Least Frequently Used), volatile-ttl (remove keys with nearest expiration), allkeys-random. Choose based on access patterns.",
+      },
+      {
+        q: "What are Redis Streams used for?",
+        a: "Event sourcing, message queues, activity feeds, and real-time data processing. Provides consumer groups for distributed processing.",
+      },
+    ],
+    codeSnippets: [
+      {
+        title: "Caching Pattern with Expiration",
+        code: `// Cache-aside pattern
+async function getUserData(userId) {
+  const cacheKey = \`user:\${userId}\`;
+  
+  // Try cache first
+  let data = await redis.get(cacheKey);
+  
+  if (data) {
+    return JSON.parse(data);
+  }
+  
+  // Cache miss - fetch from DB
+  data = await db.users.findById(userId);
+  
+  // Store in cache with 1 hour expiration
+  await redis.setex(cacheKey, 3600, JSON.stringify(data));
+  
+  return data;
+}`,
+      },
+      {
+        title: "Leaderboard with Sorted Sets",
+        code: `// Add player score
+await redis.zadd('leaderboard', score, playerId);
+
+// Get top 10 players
+const top10 = await redis.zrevrange(
+  'leaderboard', 
+  0, 
+  9, 
+  'WITHSCORES'
+);
+
+// Get player rank
+const rank = await redis.zrevrank('leaderboard', playerId);`,
+      },
+      {
+        title: "Rate Limiting with Sliding Window",
+        code: `async function checkRateLimit(userId, limit, window) {
+  const key = \`ratelimit:\${userId}\`;
+  const now = Date.now();
+  const cutoff = now - (window * 1000);
+  
+  // Remove old entries
+  await redis.zremrangebyscore(key, 0, cutoff);
+  
+  // Count requests in window
+  const count = await redis.zcard(key);
+  
+  if (count >= limit) {
+    return false; // Rate limited
+  }
+  
+  // Add current request
+  await redis.zadd(key, now, now);
+  await redis.expire(key, window);
+  
+  return true; // Allowed
+}`,
+      },
+    ],
+    tips: [
+      "Set maxmemory and eviction policy to prevent out-of-memory errors.",
+      "Use pipelining for multiple operations to reduce network round trips.",
+      "Monitor memory usage and key counts with INFO command.",
+      "Use Redis Sentinel for automatic failover in production.",
+      "Avoid large key values (>1MB) - split into smaller keys if needed.",
+      "Use connection pooling in your application clients.",
+      "Enable persistence (AOF) for critical data that can't be lost.",
+    ],
+  },
+  devops: {
+    title: "DevOps, CI/CD & Cloud Infrastructure",
+    concepts: [
+      "CI/CD Pipelines: Automated build, test, and deployment workflows.",
+      "Docker: Containerization for consistent environments across development and production.",
+      "Kubernetes: Container orchestration for scaling and managing containerized apps.",
+      "Infrastructure as Code: Terraform, CloudFormation, Ansible for automated provisioning.",
+      "Monitoring & Logging: Prometheus, Grafana, ELK Stack, DataDog for observability.",
+      "Load Balancing: Distributing traffic across multiple servers (Nginx, HAProxy, ALB).",
+      "Auto-scaling: Horizontal and vertical scaling based on metrics.",
+      "Blue-Green Deployment: Zero-downtime deployments with instant rollback.",
+      "Canary Releases: Gradual rollout to subset of users for risk mitigation.",
+      "Service Mesh: Istio, Linkerd for microservices communication and observability.",
+      "Secrets Management: Vault, AWS Secrets Manager for secure credential storage.",
+      "GitOps: Git as single source of truth for infrastructure and application config.",
+      "Disaster Recovery: Backup strategies, RTO/RPO, and failover procedures.",
+      "Cost Optimization: Resource right-sizing, spot instances, reserved capacity.",
+    ],
+    questions: [
+      {
+        q: "What is the difference between Continuous Delivery and Continuous Deployment?",
+        a: "Continuous Delivery means code is always ready to deploy (manual trigger). Continuous Deployment automatically deploys every change that passes tests to production.",
+      },
+      {
+        q: "Explain the benefits of containerization.",
+        a: "Consistency across environments, isolation, efficient resource usage, fast startup times, easy scaling, and simplified dependency management.",
+      },
+      {
+        q: "What is a Kubernetes Pod?",
+        a: "The smallest deployable unit in K8s, containing one or more containers that share network and storage. Containers in a pod are scheduled together on the same node.",
+      },
+      {
+        q: "How do you ensure zero-downtime deployments?",
+        a: "Use rolling updates, blue-green or canary deployments, health checks, graceful shutdowns, and maintain backward-compatible APIs during transitions.",
+      },
+      {
+        q: "What are the 12-Factor App principles?",
+        a: "Best practices for building SaaS apps: codebase, dependencies, config, backing services, build/release/run, processes, port binding, concurrency, disposability, dev/prod parity, logs, admin processes.",
+      },
+      {
+        q: "Explain Infrastructure as Code benefits.",
+        a: "Version control for infrastructure, reproducible environments, automated provisioning, self-documentation, easier disaster recovery, and reduced human error.",
+      },
+    ],
+    codeSnippets: [
+      {
+        title: "Dockerfile Multi-Stage Build",
+        code: `# Build stage
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY package.json ./
+
+USER node
+EXPOSE 3000
+CMD ["node", "dist/server.js"]`,
+      },
+      {
+        title: "Kubernetes Deployment YAML",
+        code: `apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      containers:
+      - name: api
+        image: myapp:v1.2.3
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: production
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10`,
+      },
+      {
+        title: "GitHub Actions CI/CD Pipeline",
+        code: `name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build and push Docker image
+        run: |
+          docker build -t myapp:$GITHUB_SHA .
+          docker push myapp:$GITHUB_SHA
+      - name: Deploy to Kubernetes
+        run: kubectl set image deployment/api api=myapp:$GITHUB_SHA`,
+      },
+    ],
+    tips: [
+      "Implement comprehensive monitoring and alerting before deploying to production.",
+      "Use health checks and readiness probes for reliable container orchestration.",
+      "Store secrets in dedicated management systems, never in code or plain text.",
+      "Implement automated backups and regularly test restoration procedures.",
+      "Use blue-green or canary deployments for critical production services.",
+      "Set resource limits to prevent containers from consuming all host resources.",
+      "Practice incident response and have runbooks for common failure scenarios.",
+      "Regularly review and optimize cloud costs - unused resources add up quickly.",
+    ],
+  },
+  aiml: {
+    title: "AI/ML & Data Science Fundamentals",
+    concepts: [
+      "Supervised Learning: Training models on labeled data (classification, regression).",
+      "Unsupervised Learning: Finding patterns in unlabeled data (clustering, dimensionality reduction).",
+      "Neural Networks: Layers of interconnected nodes for complex pattern recognition.",
+      "Deep Learning: Multi-layer neural networks for image, text, and speech processing.",
+      "Feature Engineering: Creating meaningful input variables from raw data.",
+      "Model Training: Backpropagation, gradient descent, and optimization algorithms.",
+      "Overfitting vs Underfitting: Balancing model complexity with generalization.",
+      "Train/Test/Validation Split: Proper data splitting for unbiased evaluation.",
+      "Cross-Validation: K-fold validation for robust model assessment.",
+      "Hyperparameter Tuning: Grid search, random search, Bayesian optimization.",
+      "Transfer Learning: Using pre-trained models as starting point for new tasks.",
+      "NLP (Natural Language Processing): Text processing, embeddings, transformers.",
+      "Computer Vision: Image classification, object detection, semantic segmentation.",
+      "Model Deployment: Serving models via APIs, edge deployment, model monitoring.",
+      "MLOps: Version control, experiment tracking, model registry, CI/CD for ML.",
+    ],
+    questions: [
+      {
+        q: "What is the difference between precision and recall?",
+        a: "Precision = True Positives / (True Positives + False Positives). Recall = True Positives / (True Positives + False Negatives). Precision focuses on accuracy of positive predictions; recall on finding all positives.",
+      },
+      {
+        q: "Explain the bias-variance tradeoff.",
+        a: "Bias is error from oversimplified assumptions (underfitting). Variance is error from excessive complexity (overfitting). Goal is to minimize both for optimal generalization.",
+      },
+      {
+        q: "What is regularization and why use it?",
+        a: "Techniques (L1/L2, dropout) that prevent overfitting by penalizing complex models. Helps models generalize better to unseen data.",
+      },
+      {
+        q: "How do neural networks learn?",
+        a: "Through backpropagation: forward pass computes predictions, loss function measures error, backward pass calculates gradients, optimizer updates weights to minimize loss.",
+      },
+      {
+        q: "What are embeddings in ML?",
+        a: "Dense vector representations of discrete items (words, images, users) in continuous space where similar items have similar vectors. Enable ML models to process categorical data.",
+      },
+      {
+        q: "Explain gradient descent variants.",
+        a: "Batch: uses all data per update (slow). Stochastic: uses one sample (noisy). Mini-batch: uses small batches (balanced). Adam, RMSprop add adaptive learning rates.",
+      },
+    ],
+    codeSnippets: [
+      {
+        title: "Simple Neural Network with Keras",
+        code: `from tensorflow import keras
+from tensorflow.keras import layers
+
+# Define model
+model = keras.Sequential([
+    layers.Dense(128, activation='relu', input_shape=(784,)),
+    layers.Dropout(0.2),
+    layers.Dense(64, activation='relu'),
+    layers.Dropout(0.2),
+    layers.Dense(10, activation='softmax')
+])
+
+# Compile
+model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# Train
+history = model.fit(
+    X_train, y_train,
+    validation_split=0.2,
+    epochs=10,
+    batch_size=32
+)`,
+      },
+      {
+        title: "Scikit-learn Pipeline with Cross-Validation",
+        code: `from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+
+# Create pipeline
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('classifier', RandomForestClassifier(n_estimators=100))
+])
+
+# Cross-validation
+scores = cross_val_score(
+    pipeline, X, y, 
+    cv=5, 
+    scoring='f1_weighted'
+)
+
+print(f"F1 Score: {scores.mean():.3f} (+/- {scores.std():.3f})")`,
+      },
+      {
+        title: "Text Preprocessing for NLP",
+        code: `import re
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
+def preprocess_text(text):
+    # Lowercase
+    text = text.lower()
+    
+    # Remove special characters
+    text = re.sub(r'[^a-zA-Z\\s]', '', text)
+    
+    # Tokenize
+    tokens = word_tokenize(text)
+    
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    tokens = [t for t in tokens if t not in stop_words]
+    
+    # Lemmatization
+    lemmatizer = WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(t) for t in tokens]
+    
+    return ' '.join(tokens)`,
+      },
+    ],
+    tips: [
+      "Start with simple models (logistic regression, decision trees) before complex ones.",
+      "Always visualize your data before building models - understand distributions and relationships.",
+      "Use proper train/test split and cross-validation to avoid overfitting.",
+      "Feature engineering often matters more than algorithm choice.",
+      "Monitor model performance in production - data drift can degrade accuracy.",
+      "Document experiments and track hyperparameters for reproducibility.",
+      "Consider model interpretability for business-critical applications.",
+      "Use pre-trained models (BERT, ResNet) when possible - saves time and resources.",
     ],
   },
 };
