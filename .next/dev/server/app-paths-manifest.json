@@ -1,0 +1,6 @@
+{
+  "/guidelines/page": "app/guidelines/page.js",
+  "/page": "app/page.js",
+  "/pdf-generator/page": "app/pdf-generator/page.js",
+  "/quiz/page": "app/quiz/page.js"
+}
