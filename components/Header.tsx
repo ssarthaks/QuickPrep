@@ -37,9 +37,9 @@ export const Header = () => {
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <motion.div
-              whileHover={{ scale: 1.05}}
+              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.6 }}
-              className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 shadow-lg"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 shadow-lg"
             >
               <BookOpen className="h-6 w-6 text-white" />
             </motion.div>
@@ -65,7 +65,7 @@ export const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden hover:bg-blue-700 rounded-xl"
+            className="md:hidden hover:bg-blue-700 rounded-xl w-16 h-16"
             onClick={() => setIsOpen(!isOpen)}
           >
             <motion.div
@@ -73,9 +73,9 @@ export const Header = () => {
               transition={{ duration: 0.3 }}
             >
               {isOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-8 w-8" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-8 w-8" />
               )}
             </motion.div>
           </Button>
@@ -102,9 +102,9 @@ export const Header = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-full h-full bg-white z-50 md:hidden shadow-2xl"
+              className="fixed inset-0 w-screen h-screen bg-white z-50 md:hidden shadow-2xl"
             >
-              <div className="flex flex-col h-full">
+              <div className="flex flex-col h-full w-full">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-slate-200">
                   <Link
@@ -130,19 +130,19 @@ export const Header = () => {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="flex-1 overflow-y-auto p-6">
-                  <div className="space-y-3">
+                <div className="flex-1 flex items-center justify-center overflow-y-auto p-6">
+                  <div className="space-y-3 w-full max-w-md">
                     {navLinks.map((link, i) => (
                       <motion.div
                         key={link.path}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
                       >
                         <Link
                           href={link.path}
                           onClick={() => setIsOpen(false)}
-                          className={`block px-6 py-4 rounded-xl text-base font-semibold transition-all ${
+                          className={`block px-6 py-4 rounded-xl text-center text-lg font-semibold transition-all ${
                             pathname === link.path
                               ? "bg-blue-600 text-white shadow-lg"
                               : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"

@@ -155,7 +155,7 @@ const PDFGenerator = () => {
               <BookOpenIcon className="h-4 w-4" />
               Free Pdfs
             </div>
-            <h1 className="text-3xl font-bold mb-2">PDF Generator</h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">PDF Generator</h1>
             <p className="text-muted-foreground">
               Download concise revision notes
             </p>
