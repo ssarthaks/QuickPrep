@@ -330,7 +330,7 @@ const BooksLibrary = () => {
           if (!open) closePreview();
         }}
       >
-        <AlertDialogContent className="max-w-6xl max-h-[95vh] overflow-hidden flex flex-col">
+        <AlertDialogContent className="max-w-7xl w-full aspect-[3/4] md:aspect-video max-h-[95vh] overflow-hidden flex flex-col">
           <AlertDialogHeader className="flex-shrink-0">
             <AlertDialogTitle className="flex items-start gap-3">
               <BookOpen className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
@@ -367,6 +367,17 @@ const BooksLibrary = () => {
                 {/* PDF Controls */}
                 <div className="flex items-center justify-between gap-2 p-3 bg-slate-50 border-b border-slate-200 flex-shrink-0">
                   <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() =>
+                        window.open(`/books/${previewBook?.filename}`, "_blank")
+                      }
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-2"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      <span className="hidden sm:inline">Open in New Tab</span>
+                    </Button>
                     <span className="text-sm text-slate-600 font-medium">
                       {numPages ? `${numPages} Pages` : "Loading..."}
                     </span>
