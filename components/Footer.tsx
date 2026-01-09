@@ -69,7 +69,7 @@ export const Footer = () => {
 
         <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-600">
-            © 2026 Quickie. Developed by Sarthak
+            © 2026 Quickie | Developed by Sarthak
           </p>
           <div className="flex gap-4">
             <a
