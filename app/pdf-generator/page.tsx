@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileDown, Loader2, Eye, X, Download } from "lucide-react";
+import {
+  FileDown,
+  Loader2,
+  Eye,
+  X,
+  Download,
+  BookOpenIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -144,6 +151,10 @@ const PDFGenerator = () => {
       <div className="min-h-screen py-12">
         <div className="section-container max-w-xl">
           <motion.div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold mb-4 shadow-lg">
+              <BookOpenIcon className="h-4 w-4" />
+              Free Pdfs
+            </div>
             <h1 className="text-3xl font-bold mb-2">PDF Generator</h1>
             <p className="text-muted-foreground">
               Download concise revision notes

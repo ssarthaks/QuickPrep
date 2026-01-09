@@ -248,6 +248,11 @@ const Quiz = () => {
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">
                 Quiz Complete!
               </h2>
+              <p className="text-sm sm:text-base text-muted-foreground">
+                {fields.find((f) => f.value === field)?.label} •{" "}
+                {technologies[field]?.find((t) => t.value === tech)?.label} •{" "}
+                {difficulties.find((d) => d.value === difficulty)?.label}
+              </p>
 
               {/* Score Cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 max-w-2xl mx-auto">
@@ -619,6 +624,10 @@ const Quiz = () => {
 
       <div className="section-container max-w-xl px-4">
         <motion.div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold mb-4 shadow-lg">
+            <Award className="h-4 w-4" />
+            Test Yourself
+          </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
             MCQ Quiz
           </h1>
