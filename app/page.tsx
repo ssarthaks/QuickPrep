@@ -82,7 +82,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold mb-8 shadow-lg"
             >
               <Award className="h-4 w-4" />
-              Learn, Practice, and Revise: Notes, MCQs & PDF Guides
+              Learn, Practice, and Revise
             </motion.div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-slate-900">
