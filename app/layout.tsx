@@ -13,6 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.quickprep.tech"),
   title: {
     default: "QuickPrep – Last Minute Tech Interview Preparation & Practice",
     template: "%s | QuickPrep",
@@ -49,12 +50,16 @@ export const metadata: Metadata = {
   authors: [{ name: "QuickPrep Team" }],
   creator: "QuickPrep",
   publisher: "QuickPrep",
+  alternates: {
+    canonical: "/",
+  },
 
   openGraph: {
     title: "QuickPrep – Last Minute Tech Interview Preparation & Practice",
     description:
       "Practice 500+ MCQ questions, download instant PDF notes, and access expert guidelines for technical interviews. Covering React, Node.js, Python, SQL, MongoDB, DevOps, AI/ML and 25+ technologies.",
     type: "website",
+    url: "https://www.quickprep.tech",
     locale: "en_US",
     siteName: "QuickPrep",
     images: [
@@ -90,8 +95,6 @@ export const metadata: Metadata = {
   verification: {
     google: "SlM603sd7YH0-F4ZDP2E5GVu3BaCoEieb7kCO92P6qI",
   },
-
-  metadataBase: new URL("https://www.quickprep.tech/"),
 };
 
 export default function RootLayout({
