@@ -33,8 +33,6 @@ const BooksLibrary = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Books");
   const [previewBook, setPreviewBook] = useState<Book | null>(null);
   const [showPreviewDialog, setShowPreviewDialog] = useState(false);
-  const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
-  const [isLoadingPreview, setIsLoadingPreview] = useState(false);
 
   // Filter books based on search and category
   const filteredBooks = useMemo(() => {
@@ -62,33 +60,13 @@ const BooksLibrary = () => {
     document.body.removeChild(link);
   };
 
-  const handlePreview = async (book: Book) => {
+  const handlePreview = (book: Book) => {
     setPreviewBook(book);
     setShowPreviewDialog(true);
-    setIsLoadingPreview(true);
-
-    try {
-      const response = await fetch(`/data/books/${book.filename}`);
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      setPdfPreviewUrl(url);
-    } catch (error) {
-      console.error("Error loading PDF:", error);
-    } finally {
-      setIsLoadingPreview(false);
-    }
   };
 
   const closePreview = () => {
     setShowPreviewDialog(false);
-    if (pdfPreviewUrl) {
-      URL.revokeObjectURL(pdfPreviewUrl);
-      setPdfPreviewUrl(null);
-    }
-  };
-
-  const openPDFInNewTab = (book: Book) => {
-    window.open(`/data/books/${book.filename}`, "_blank");
   };
 
   return (
@@ -297,7 +275,7 @@ const BooksLibrary = () => {
           if (!open) closePreview();
         }}
       >
-        <AlertDialogContent className="max-w-5xl max-h-[90vh] overflow-hidden">
+        <AlertDialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-start gap-3">
               <BookOpen className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
@@ -310,90 +288,127 @@ const BooksLibrary = () => {
                 </div>
               </div>
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-left overflow-y-auto max-h-[70vh]">
-              <div className="space-y-4 mt-4">
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2 text-sm">
-                    Description
-                  </h4>
-                  <p className="text-slate-600 text-sm">
-                    {previewBook?.description}
-                  </p>
-                </div>
+          </AlertDialogHeader>
 
-                <div className="flex flex-wrap items-center gap-3">
-                  <div>
-                    <span className="text-xs font-medium text-slate-500 block mb-1">
-                      Category
-                    </span>
-                    <span className="inline-block px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
-                      {previewBook?.category}
-                    </span>
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-medium text-slate-500 block mb-1">
-                      Tags
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {previewBook?.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-xs font-medium"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+          <div className="space-y-6 py-4">
+            {/* Description */}
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-2 text-sm">
+                Description
+              </h4>
+              <p className="text-slate-600 text-sm">
+                {previewBook?.description}
+              </p>
+            </div>
 
-                {/* PDF Preview Frame */}
-                <div className="border border-slate-200 rounded-lg overflow-hidden bg-white">
-                  <div className="px-4 py-2 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-                    <span className="text-xs font-medium text-slate-700">
-                      PDF Preview
-                    </span>
-                    <Button
-                      onClick={() =>
-                        previewBook && openPDFInNewTab(previewBook)
-                      }
-                      variant="ghost"
-                      size="sm"
-                      className="gap-1.5 h-7 text-xs"
+            {/* Category and Tags */}
+            <div className="flex flex-wrap items-start gap-4">
+              <div>
+                <span className="text-xs font-medium text-slate-500 block mb-2">
+                  Category
+                </span>
+                <span className="inline-block px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
+                  {previewBook?.category}
+                </span>
+              </div>
+              <div className="flex-1 min-w-[200px]">
+                <span className="text-xs font-medium text-slate-500 block mb-2">
+                  Tags
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {previewBook?.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs font-medium"
                     >
-                      <ExternalLink className="h-3 w-3" />
-                      Full Screen
-                    </Button>
-                  </div>
-                  <div className="relative">
-                    {isLoadingPreview ? (
-                      <div className="w-full h-96 flex items-center justify-center bg-slate-50">
-                        <div className="text-center">
-                          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                          <p className="text-sm text-slate-600">
-                            Loading PDF...
-                          </p>
-                        </div>
-                      </div>
-                    ) : pdfPreviewUrl ? (
-                      <iframe
-                        src={`${pdfPreviewUrl}#toolbar=0`}
-                        className="w-full h-96"
-                        title="PDF Preview"
-                      />
-                    ) : (
-                      <div className="w-full h-96 flex items-center justify-center bg-slate-50">
-                        <p className="text-sm text-slate-600">
-                          Failed to load PDF preview
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-3 text-sm">
+                Quick Links
+              </h4>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button
+                  onClick={() => {
+                    closePreview();
+                    window.location.href = `/quiz?book=${encodeURIComponent(
+                      previewBook?.title || ""
+                    )}`;
+                  }}
+                  variant="outline"
+                  className="flex-1 gap-2 justify-start"
+                  size="sm"
+                >
+                  <span className="text-blue-600">📝</span>
+                  <span>MCQ Quiz</span>
+                </Button>
+                <Button
+                  onClick={() => {
+                    closePreview();
+                    window.location.href = `/pdf-generator?book=${encodeURIComponent(
+                      previewBook?.title || ""
+                    )}`;
+                  }}
+                  variant="outline"
+                  className="flex-1 gap-2 justify-start"
+                  size="sm"
+                >
+                  <span className="text-blue-600">📄</span>
+                  <span>PDF Generator</span>
+                </Button>
+                <Button
+                  onClick={() => {
+                    closePreview();
+                    window.location.href = "/guidelines";
+                  }}
+                  variant="outline"
+                  className="flex-1 gap-2 justify-start"
+                  size="sm"
+                >
+                  <span className="text-blue-600">📖</span>
+                  <span>Guidelines</span>
+                </Button>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-3 text-sm">
+                Features
+              </h4>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <span className="text-blue-600 mt-0.5">⚡</span>
+                  <span className="text-sm text-slate-700">
+                    Instant feedback
+                  </span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-blue-600 mt-0.5">⚡</span>
+                  <span className="text-sm text-slate-700">
+                    Real interview questions
+                  </span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-blue-600 mt-0.5">⚡</span>
+                  <span className="text-sm text-slate-700">PDF downloads</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Info */}
+            <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-200">
+              © 2026 Quickie | Developed by Sarthak
+            </div>
+          </div>
+
+          <AlertDialogFooter className="sm:justify-between">
             <AlertDialogCancel onClick={closePreview}>Close</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => previewBook && handleDownload(previewBook)}
