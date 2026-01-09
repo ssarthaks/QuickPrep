@@ -11,6 +11,7 @@ const navLinks = [
   { path: "/", label: "Home" },
   { path: "/quiz", label: "MCQ Quiz" },
   { path: "/pdf-generator", label: "PDF Generator" },
+  { path: "/books", label: "Books" },
   { path: "/guidelines", label: "Guidelines" },
 ];
 
@@ -36,7 +37,7 @@ export const Header = () => {
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <motion.div
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.05}}
               transition={{ duration: 0.6 }}
               className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 shadow-lg"
             >

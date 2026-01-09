@@ -12,6 +12,7 @@ import {
   Target,
   Lightbulb,
   TrendingUp,
+  Award,
 } from "lucide-react";
 
 const sections = [
@@ -125,6 +126,10 @@ const Guidelines = () => {
       <div className="section-container max-w-6xl px-4">
         {/* Header */}
         <motion.div className="text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold mb-4 shadow-lg">
+            <Award className="h-4 w-4" />
+            Unlock Your Potential
+          </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
             Interview Guidelines
           </h1>
