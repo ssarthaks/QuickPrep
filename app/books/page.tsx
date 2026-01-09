@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -14,6 +15,10 @@ import {
   User,
   Tag,
   Github,
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { books, categories, Book } from "@/data/booksData";
@@ -28,11 +33,39 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
+// Dynamic imports for react-pdf to avoid SSR issues
+const Document = dynamic(
+  () => import("react-pdf").then((mod) => mod.Document),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex flex-col items-center justify-center p-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+        <p className="text-sm text-slate-600">Loading PDF viewer...</p>
+      </div>
+    ),
+  }
+);
+
+const Page = dynamic(() => import("react-pdf").then((mod) => mod.Page), {
+  ssr: false,
+});
+
+// Set up PDF.js worker
+if (typeof window !== "undefined") {
+  import("react-pdf").then((pdfjs) => {
+    pdfjs.pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.pdfjs.version}/build/pdf.worker.min.mjs`;
+  });
+}
+
 const BooksLibrary = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Books");
   const [previewBook, setPreviewBook] = useState<Book | null>(null);
   const [showPreviewDialog, setShowPreviewDialog] = useState(false);
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const [scale, setScale] = useState(1.0);
+  const [pdfError, setPdfError] = useState<string | null>(null);
 
   // Filter books based on search and category
   const filteredBooks = useMemo(() => {
@@ -53,7 +86,7 @@ const BooksLibrary = () => {
 
   const handleDownload = (book: Book) => {
     const link = document.createElement("a");
-    link.href = `/data/books/${book.filename}`;
+    link.href = `/books/${book.filename}`;
     link.download = book.filename;
     document.body.appendChild(link);
     link.click();
@@ -62,11 +95,33 @@ const BooksLibrary = () => {
 
   const handlePreview = (book: Book) => {
     setPreviewBook(book);
+    setScale(1.0);
+    setPdfError(null);
     setShowPreviewDialog(true);
   };
 
   const closePreview = () => {
     setShowPreviewDialog(false);
+    setNumPages(null);
+    setPdfError(null);
+  };
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+    setPdfError(null);
+  };
+
+  const onDocumentLoadError = (error: Error) => {
+    console.error("Error loading PDF:", error);
+    setPdfError("Failed to load PDF. The file may not exist or is corrupted.");
+  };
+
+  const zoomIn = () => {
+    setScale((prev) => Math.min(prev + 0.2, 2.0));
+  };
+
+  const zoomOut = () => {
+    setScale((prev) => Math.max(prev - 0.2, 0.5));
   };
 
   return (
@@ -275,8 +330,8 @@ const BooksLibrary = () => {
           if (!open) closePreview();
         }}
       >
-        <AlertDialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <AlertDialogHeader>
+        <AlertDialogContent className="max-w-7xl w-full aspect-[3/4] md:aspect-video max-h-[95vh] overflow-hidden flex flex-col">
+          <AlertDialogHeader className="flex-shrink-0">
             <AlertDialogTitle className="flex items-start gap-3">
               <BookOpen className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
               <div className="flex-1 min-w-0">
@@ -290,125 +345,113 @@ const BooksLibrary = () => {
             </AlertDialogTitle>
           </AlertDialogHeader>
 
-          <div className="space-y-6 py-4">
-            {/* Description */}
-            <div>
-              <h4 className="font-semibold text-slate-900 mb-2 text-sm">
-                Description
-              </h4>
-              <p className="text-slate-600 text-sm">
-                {previewBook?.description}
-              </p>
-            </div>
-
-            {/* Category and Tags */}
-            <div className="flex flex-wrap items-start gap-4">
-              <div>
-                <span className="text-xs font-medium text-slate-500 block mb-2">
-                  Category
-                </span>
-                <span className="inline-block px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
-                  {previewBook?.category}
-                </span>
+          {/* PDF Viewer */}
+          <div className="flex-1 overflow-hidden flex flex-col min-h-0">
+            {pdfError ? (
+              <div className="flex flex-col items-center justify-center h-full text-center p-8">
+                <BookOpen className="h-16 w-16 text-red-400 mb-4" />
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                  Unable to Load PDF
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">{pdfError}</p>
+                <Button
+                  onClick={() => previewBook && handleDownload(previewBook)}
+                  className="bg-blue-600 hover:bg-blue-700 gap-2"
+                >
+                  <Download className="h-4 w-4" />
+                  Download Instead
+                </Button>
               </div>
-              <div className="flex-1 min-w-[200px]">
-                <span className="text-xs font-medium text-slate-500 block mb-2">
-                  Tags
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {previewBook?.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs font-medium"
+            ) : (
+              <>
+                {/* PDF Controls */}
+                <div className="flex items-center justify-between gap-2 p-3 bg-slate-50 border-b border-slate-200 flex-shrink-0">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() =>
+                        window.open(`/books/${previewBook?.filename}`, "_blank")
+                      }
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-2"
                     >
-                      {tag}
+                      <ExternalLink className="h-4 w-4" />
+                      <span className="hidden sm:inline">Open in New Tab</span>
+                    </Button>
+                    <span className="text-sm text-slate-600 font-medium">
+                      {numPages ? `${numPages} Pages` : "Loading..."}
                     </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+                  </div>
 
-            {/* Quick Links */}
-            <div>
-              <h4 className="font-semibold text-slate-900 mb-3 text-sm">
-                Quick Links
-              </h4>
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Button
-                  onClick={() => {
-                    closePreview();
-                    window.location.href = `/quiz?book=${encodeURIComponent(
-                      previewBook?.title || ""
-                    )}`;
-                  }}
-                  variant="outline"
-                  className="flex-1 gap-2 justify-start"
-                  size="sm"
-                >
-                  <span className="text-blue-600">📝</span>
-                  <span>MCQ Quiz</span>
-                </Button>
-                <Button
-                  onClick={() => {
-                    closePreview();
-                    window.location.href = `/pdf-generator?book=${encodeURIComponent(
-                      previewBook?.title || ""
-                    )}`;
-                  }}
-                  variant="outline"
-                  className="flex-1 gap-2 justify-start"
-                  size="sm"
-                >
-                  <span className="text-blue-600">📄</span>
-                  <span>PDF Generator</span>
-                </Button>
-                <Button
-                  onClick={() => {
-                    closePreview();
-                    window.location.href = "/guidelines";
-                  }}
-                  variant="outline"
-                  className="flex-1 gap-2 justify-start"
-                  size="sm"
-                >
-                  <span className="text-blue-600">📖</span>
-                  <span>Guidelines</span>
-                </Button>
-              </div>
-            </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={zoomOut}
+                      disabled={scale <= 0.5}
+                      variant="outline"
+                      size="sm"
+                      className="h-8"
+                    >
+                      <ZoomOut className="h-4 w-4" />
+                    </Button>
+                    <span className="text-sm text-slate-600 min-w-[60px] text-center">
+                      {Math.round(scale * 100)}%
+                    </span>
+                    <Button
+                      onClick={zoomIn}
+                      disabled={scale >= 2.0}
+                      variant="outline"
+                      size="sm"
+                      className="h-8"
+                    >
+                      <ZoomIn className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
 
-            {/* Features */}
-            <div>
-              <h4 className="font-semibold text-slate-900 mb-3 text-sm">
-                Features
-              </h4>
-              <div className="space-y-2">
-                <div className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-0.5">⚡</span>
-                  <span className="text-sm text-slate-700">
-                    Instant feedback
-                  </span>
+                {/* PDF Document */}
+                <div className="flex-1 overflow-auto bg-slate-100 flex p-4 justify-center">
+                  <div className="bg-white shadow-lg">
+                    <Document
+                      file={`/books/${previewBook?.filename}`}
+                      onLoadSuccess={onDocumentLoadSuccess}
+                      onLoadError={onDocumentLoadError}
+                      loading={
+                        <div className="flex flex-col items-center justify-center p-12 w-full">
+                          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+                          <p className="text-sm text-slate-600">
+                            Loading PDF...
+                          </p>
+                        </div>
+                      }
+                    >
+                      {numPages &&
+                        Array.from(new Array(numPages), (el, index) => (
+                          <Page
+                            key={`page_${index + 1}`}
+                            pageNumber={index + 1}
+                            scale={scale}
+                            renderTextLayer={true}
+                            renderAnnotationLayer={true}
+                            className={
+                              index < (numPages || 0) - 1
+                                ? "mb-4 border-b border-slate-200"
+                                : ""
+                            }
+                            loading={
+                              <div className="flex items-center justify-center p-12 bg-white mb-4">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                              </div>
+                            }
+                          />
+                        ))}
+                    </Document>
+                  </div>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-0.5">⚡</span>
-                  <span className="text-sm text-slate-700">
-                    Real interview questions
-                  </span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-0.5">⚡</span>
-                  <span className="text-sm text-slate-700">PDF downloads</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Footer Info */}
-            <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-200">
-              © 2026 Quickie | Developed by Sarthak
-            </div>
+              </>
+            )}
           </div>
 
-          <AlertDialogFooter className="sm:justify-between">
+          <AlertDialogFooter className="flex-shrink-0 sm:justify-between">
             <AlertDialogCancel onClick={closePreview}>Close</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => previewBook && handleDownload(previewBook)}
