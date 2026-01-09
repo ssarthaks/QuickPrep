@@ -248,6 +248,11 @@ const Quiz = () => {
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">
                 Quiz Complete!
               </h2>
+              <p className="text-sm sm:text-base text-muted-foreground">
+                {fields.find((f) => f.value === field)?.label} •{" "}
+                {technologies[field]?.find((t) => t.value === tech)?.label} •{" "}
+                {difficulties.find((d) => d.value === difficulty)?.label}
+              </p>
 
               {/* Score Cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 max-w-2xl mx-auto">
