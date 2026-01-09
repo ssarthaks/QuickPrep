@@ -129,8 +129,6 @@ const BooksLibrary = () => {
       <div className="section-container px-4 max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8 lg:mb-12"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold mb-4 shadow-lg">

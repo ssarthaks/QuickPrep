@@ -628,7 +628,7 @@ const Quiz = () => {
             <Award className="h-4 w-4" />
             Test Yourself
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
             MCQ Quiz
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground">
