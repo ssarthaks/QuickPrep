@@ -13,6 +13,7 @@ import {
   ChevronRight,
   BookOpen,
   Award,
+  AlertCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,12 +25,37 @@ import {
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   fields,
   technologies,
   difficulties,
   getQuestions,
   Question,
 } from "@/data/quizQuestions";
+import Cookies from "js-cookie";
+
+interface QuizProgress {
+  field: string;
+  tech: string;
+  difficulty: string;
+  questions: Question[];
+  currentQ: number;
+  answers: { q: number; answer: number; correct: boolean }[];
+  timeElapsed: number;
+  timestamp: number;
+}
+
+const COOKIE_NAME = "quiz_progress";
+const COOKIE_EXPIRY_DAYS = 7;
 
 const Quiz = () => {
   const [field, setField] = useState("");
@@ -45,6 +71,60 @@ const Quiz = () => {
   const [quizStarted, setQuizStarted] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [reviewMode, setReviewMode] = useState(false);
+  const [showContinueDialog, setShowContinueDialog] = useState(false);
+  const [savedProgress, setSavedProgress] = useState<QuizProgress | null>(null);
+
+  // Check for saved progress on mount
+  useEffect(() => {
+    const savedData = Cookies.get(COOKIE_NAME);
+    if (savedData) {
+      try {
+        const progress: QuizProgress = JSON.parse(savedData);
+        // Check if progress is recent (within last 7 days)
+        const daysSince =
+          (Date.now() - progress.timestamp) / (1000 * 60 * 60 * 24);
+        if (daysSince < COOKIE_EXPIRY_DAYS && progress.questions.length > 0) {
+          setSavedProgress(progress);
+          setShowContinueDialog(true);
+        } else {
+          // Clear old progress
+          Cookies.remove(COOKIE_NAME);
+        }
+      } catch (e) {
+        // Invalid cookie data, remove it
+        Cookies.remove(COOKIE_NAME);
+      }
+    }
+  }, []);
+
+  // Save progress to cookie whenever quiz state changes
+  useEffect(() => {
+    if (quizStarted && !showResult && questions.length > 0) {
+      const progress: QuizProgress = {
+        field,
+        tech,
+        difficulty,
+        questions,
+        currentQ,
+        answers,
+        timeElapsed,
+        timestamp: Date.now(),
+      };
+      Cookies.set(COOKIE_NAME, JSON.stringify(progress), {
+        expires: COOKIE_EXPIRY_DAYS,
+      });
+    }
+  }, [
+    quizStarted,
+    showResult,
+    field,
+    tech,
+    difficulty,
+    questions,
+    currentQ,
+    answers,
+    timeElapsed,
+  ]);
 
   // Timer effect
   useEffect(() => {
@@ -73,7 +153,33 @@ const Quiz = () => {
       setShowResult(false);
       setTimeElapsed(0);
       setReviewMode(false);
+      setSelected(null);
     }
+  };
+
+  const continueQuiz = () => {
+    if (savedProgress) {
+      setField(savedProgress.field);
+      setTech(savedProgress.tech);
+      setDifficulty(savedProgress.difficulty);
+      setQuestions(savedProgress.questions);
+      setCurrentQ(savedProgress.currentQ);
+      setAnswers(savedProgress.answers);
+      setTimeElapsed(savedProgress.timeElapsed);
+      setQuizStarted(true);
+      setShowResult(false);
+      setReviewMode(false);
+      setSelected(
+        savedProgress.answers[savedProgress.currentQ]?.answer ?? null
+      );
+      setShowContinueDialog(false);
+    }
+  };
+
+  const startFreshQuiz = () => {
+    Cookies.remove(COOKIE_NAME);
+    setSavedProgress(null);
+    setShowContinueDialog(false);
   };
 
   const handleAnswer = (idx: number) => {
@@ -89,6 +195,8 @@ const Quiz = () => {
       setSelected(null);
     } else {
       setShowResult(true);
+      // Clear saved progress when quiz is completed
+      Cookies.remove(COOKIE_NAME);
     }
   };
 
@@ -104,6 +212,8 @@ const Quiz = () => {
     setCurrentQ(0);
     setTimeElapsed(0);
     setReviewMode(false);
+    // Clear saved progress when user explicitly resets
+    Cookies.remove(COOKIE_NAME);
   };
 
   const goToQuestion = (index: number) => {
@@ -461,6 +571,52 @@ const Quiz = () => {
 
   return (
     <div className="min-h-screen py-4 sm:py-8 lg:py-12">
+      <AlertDialog
+        open={showContinueDialog}
+        onOpenChange={setShowContinueDialog}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-primary" />
+              Continue Your Quiz?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-left space-y-2">
+              <p>We found an incomplete quiz from your previous session!</p>
+              <div className="bg-muted p-3 rounded-lg space-y-1 text-sm">
+                <p>
+                  <span className="font-medium">Topic:</span>{" "}
+                  {savedProgress?.tech} ({savedProgress?.difficulty})
+                </p>
+                <p>
+                  <span className="font-medium">Progress:</span>{" "}
+                  {savedProgress?.currentQ !== undefined
+                    ? savedProgress.currentQ + 1
+                    : 0}
+                  /{savedProgress?.questions.length || 0} questions answered
+                </p>
+                <p>
+                  <span className="font-medium">Time spent:</span>{" "}
+                  {formatTime(savedProgress?.timeElapsed || 0)}
+                </p>
+              </div>
+              <p className="text-muted-foreground">
+                Would you like to continue from where you left off, or start a
+                fresh quiz?
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={startFreshQuiz}>
+              Start Fresh
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={continueQuiz}>
+              Continue Quiz
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <div className="section-container max-w-xl px-4">
         <motion.div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
