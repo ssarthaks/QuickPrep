@@ -484,7 +484,8 @@ export const quizData: QuizData = {
         },
         {
           id: "next-b-3",
-          question: "What is the purpose of getServerSideProps?",
+          question:
+            "What is the purpose of getServerSideProps in Next.js Pages Router?",
           options: [
             "To style components",
             "To handle client-side routing",
@@ -493,7 +494,7 @@ export const quizData: QuizData = {
           ],
           correctAnswer: 2,
           explanation:
-            "getServerSideProps fetches data on the server for each request, enabling dynamic server-side rendering.",
+            "getServerSideProps (Pages Router) fetches data on the server for each request, enabling dynamic server-side rendering.",
         },
         {
           id: "next-b-4",
@@ -1255,11 +1256,12 @@ export const quizData: QuizData = {
         },
         {
           id: "html-b-4",
-          question: "Which CSS property controls the space between elements?",
-          options: ["spacing", "margin", "gap", "All of these"],
-          correctAnswer: 3,
+          question:
+            "Which CSS property is most commonly used to control the space around elements?",
+          options: ["padding", "margin", "gap", "border"],
+          correctAnswer: 1,
           explanation:
-            "margin, gap, and spacing-related properties all control space between elements in different contexts.",
+            "margin controls the space outside an element's border. padding controls space inside the border, and gap controls spacing in flex/grid containers.",
         },
         {
           id: "html-b-5",
@@ -6093,6 +6095,30 @@ quizData.fullstack.typescript = quizData.frontend.typescript;
 // Reference SQL questions in database category
 quizData.database.sql = quizData.backend.sql;
 
+// Shuffle options while maintaining the correct answer
+const shuffleOptions = (question: Question): Question => {
+  const { options, correctAnswer } = question;
+
+  // Create array of indices
+  const indices = options.map((_, idx) => idx);
+
+  // Shuffle indices using Fisher-Yates algorithm
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+
+  // Remap options and find new correct answer index
+  const shuffledOptions = indices.map((idx) => options[idx]);
+  const newCorrectAnswer = indices.indexOf(correctAnswer);
+
+  return {
+    ...question,
+    options: shuffledOptions,
+    correctAnswer: newCorrectAnswer,
+  };
+};
+
 export const getQuestions = (
   field: string,
   technology: string,
@@ -6100,6 +6126,12 @@ export const getQuestions = (
   count: number = 10
 ): Question[] => {
   const questions = quizData[field]?.[technology]?.[difficulty] || [];
+
+  // Shuffle questions
   const shuffled = [...questions].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
+
+  // Shuffle options for each question
+  const withShuffledOptions = shuffled.map((q) => shuffleOptions(q));
+
+  return withShuffledOptions.slice(0, count);
 };
