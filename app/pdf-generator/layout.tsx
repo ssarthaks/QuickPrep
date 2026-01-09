@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "developer study guide",
   ],
   openGraph: {
-    title: "PDF Notes Generator | Quickie",
+    title: "PDF Notes Generator | QuickPrep",
     description:
       "Download comprehensive technical interview notes as PDF. Instant access to formatted guides with code examples.",
     type: "website",

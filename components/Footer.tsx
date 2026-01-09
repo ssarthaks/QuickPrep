@@ -10,7 +10,7 @@ export const Footer = () => {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 shadow-lg shadow-blue-500/30">
                 <BookOpen className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-blue-600">Quickie</span>
+              <span className="text-xl font-bold text-blue-600">QuickPrep</span>
             </div>
             <p className="text-sm text-slate-600">
               Your ultimate companion for last-minute tech interview
@@ -69,7 +69,7 @@ export const Footer = () => {
 
         <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-600">
-            © 2026 Quickie | Developed by Sarthak
+            © 2026 QuickPrep | Developed by Sarthak
           </p>
           <div className="flex gap-4">
             <a

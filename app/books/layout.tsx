@@ -21,11 +21,12 @@ export const metadata: Metadata = {
     "technical books download",
   ],
   openGraph: {
-    title: "Free JavaScript Books – Download PDFs for Interview Prep | Quickie",
+    title:
+      "Free JavaScript Books – Download PDFs for Interview Prep | QuickPrep",
     description:
       "Curated collection of high-quality JavaScript books. Download or preview any book for free. Master JavaScript fundamentals, data structures, algorithms, and more.",
     type: "website",
-    url: "https://quickie.dev/books",
+    url: "https://www.quickprep.tech/books",
   },
   twitter: {
     card: "summary_large_image",

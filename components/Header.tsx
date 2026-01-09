@@ -43,7 +43,7 @@ export const Header = () => {
             >
               <BookOpen className="h-6 w-6 text-white" />
             </motion.div>
-            <span className="text-2xl font-bold text-blue-600">Quickie</span>
+            <span className="text-2xl font-bold text-blue-600">QuickPrep</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-2">
@@ -116,7 +116,7 @@ export const Header = () => {
                       <BookOpen className="h-6 w-6 text-white" />
                     </div>
                     <span className="text-2xl font-bold text-blue-600">
-                      Quickie
+                      QuickPrep
                     </span>
                   </Link>
                   <Button

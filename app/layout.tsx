@@ -14,13 +14,13 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Quickie – Last Minute Tech Interview Preparation & Practice",
-    template: "%s | Quickie",
+    default: "QuickPrep – Last Minute Tech Interview Preparation & Practice",
+    template: "%s | QuickPrep",
   },
   description:
-    "Quickie is your ultimate last-minute tech interview preparation platform. Practice 500+ MCQ questions, download instant PDF revision notes, and access expert guidelines for React, JavaScript, Node.js, Python, SQL, MongoDB, DevOps, AI/ML, and 25+ technologies. Get instant feedback and ace your IT job interview.",
+    "QuickPrep is your ultimate last-minute tech interview preparation platform. Practice 500+ MCQ questions, download instant PDF revision notes, and access expert guidelines for React, JavaScript, Node.js, Python, SQL, MongoDB, DevOps, AI/ML, and 25+ technologies. Get instant feedback and ace your IT job interview.",
   keywords: [
-    "Quickie",
+    "QuickPrep",
     "interview preparation",
     "tech interview",
     "MCQ practice",
@@ -46,30 +46,30 @@ export const metadata: Metadata = {
     "frontend interview",
     "interview notes PDF",
   ],
-  authors: [{ name: "Quickie Team" }],
-  creator: "Quickie",
-  publisher: "Quickie",
+  authors: [{ name: "QuickPrep Team" }],
+  creator: "QuickPrep",
+  publisher: "QuickPrep",
 
   openGraph: {
-    title: "Quickie – Last Minute Tech Interview Preparation & Practice",
+    title: "QuickPrep – Last Minute Tech Interview Preparation & Practice",
     description:
       "Practice 500+ MCQ questions, download instant PDF notes, and access expert guidelines for technical interviews. Covering React, Node.js, Python, SQL, MongoDB, DevOps, AI/ML and 25+ technologies.",
     type: "website",
     locale: "en_US",
-    siteName: "Quickie",
+    siteName: "QuickPrep",
     images: [
       {
         url: "/ogImage.jpg",
         width: 1200,
         height: 630,
-        alt: "Quickie – Tech Interview Preparation Platform with MCQ Quizzes and PDF Notes",
+        alt: "QuickPrep – Tech Interview Preparation Platform with MCQ Quizzes and PDF Notes",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Quickie – Last Minute Tech Interview Preparation",
+    title: "QuickPrep – Last Minute Tech Interview Preparation",
     description:
       "Practice 500+ MCQ questions and download instant PDF revision notes for technical interviews. Expert guidelines for React, Node.js, Python, SQL, and more.",
     images: ["/ogImage.jpg"],
@@ -88,10 +88,10 @@ export const metadata: Metadata = {
   },
 
   verification: {
-    google: "-yDhPN8qjvRxGcET3ltNDvktjZ6Q0mUdR821NWIVZes",
+    google: "SlM603sd7YH0-F4ZDP2E5GVu3BaCoEieb7kCO92P6qI",
   },
 
-  metadataBase: new URL("https://quickieee.vercel.app"),
+  metadataBase: new URL("https://www.quickprep.tech/"),
 };
 
 export default function RootLayout({

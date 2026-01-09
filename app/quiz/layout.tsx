@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "developer assessment",
   ],
   openGraph: {
-    title: "MCQ Quiz Practice | Quickie",
+    title: "MCQ Quiz Practice | QuickPrep",
     description:
       "Interactive MCQ quizzes for technical interview preparation. Test your knowledge across 25+ technologies.",
     type: "website",

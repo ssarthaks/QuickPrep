@@ -1,6 +1,6 @@
-# 🎯 Quickie – Last Minute Interview Preparation
+# 🎯 QuickPrep – Last Minute Interview Preparation
 
-**Quickie** is a web-based platform designed to help job seekers prepare efficiently for interviews at the last moment.  
+**QuickPrep** is a web-based platform designed to help job seekers prepare efficiently for interviews at the last moment.  
 It provides interactive MCQ quizzes, instant results, and downloadable PDF resources tailored for IT and technical interviews.
 
 ---

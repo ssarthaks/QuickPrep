@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "developer interview guide",
   ],
   openGraph: {
-    title: "Interview Guidelines & Tips | Quickie",
+    title: "Interview Guidelines & Tips | QuickPrep",
     description:
       "Professional interview guidelines to ace your technical interviews. Expert tips from successful candidates.",
     type: "website",
